@@ -40,8 +40,14 @@ def get_contact_by_id(db: Session, contact_id: int):
 
 
 def delete_contact_by_id(db: Session, contact_id: int):
-    return db.query(models.Contacts).delete(models.Contacts.id == contact_id).first()
+    user = db.query(models.Contacts).filter(models.Contacts.id == contact_id).one()
+    db.delete(user)
+    db.commit()
+    return user
 
 
-def update_contact_by_id(db: Session, contact_id: int):
-    return db.query(models.Contacts).update(models.Contacts.id == contact_id).first()
+def update_contact_by_id(db: Session, phone: str, contact_id: int):
+    contact = db.query(models.Contacts).filter(models.Contacts.id == contact_id).one()
+    contact.phone = phone
+    db.commit()
+    return contact

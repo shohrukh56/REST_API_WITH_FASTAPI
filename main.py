@@ -102,15 +102,16 @@ async def get_contact_by_id(contact_id, current_user: UserInfo = Depends(get_cur
 
 
 @app.delete("/contact/{contact_id}")
-async def get_contact_by_id(contact_id, current_user: UserInfo = Depends(get_current_user)
-                            , db: Session = Depends(get_db)):
+async def delete_contact_by_id(contact_id, current_user: UserInfo = Depends(get_current_user),
+                               db: Session = Depends(get_db)):
     return crud.delete_contact_by_id(db=db, contact_id=contact_id)
 
 
 @app.patch("/contact/{contact_id}")
-async def get_contact_by_id(contact_id, current_user: UserInfo = Depends(get_current_user)
-                            , db: Session = Depends(get_db)):
-    return crud.update_contact_by_id(db=db, contact_id=contact_id)
+async def update_contact_by_id(contact_id, contact: schemas.ContactBase,
+                               current_user: UserInfo = Depends(get_current_user)
+                               , db: Session = Depends(get_db)):
+    return crud.update_contact_by_id(db=db, phone=contact.phone, contact_id=contact_id)
 
 
 if __name__ == "__main__":
